@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Work Guide — Narration & Singing</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF8F3;
+    --warm-white: #FFFFFF;
+    --ink: #1A1814;
+    --ink-soft: #4A4640;
+    --ink-muted: #8A8680;
+    --gold: #C9A84C;
+    --gold-light: #F0E4C0;
+    --gold-subtle: #FAF4E6;
+    --teal: #2D6E6E;
+    --teal-light: #E6F2F2;
+    --border: #E8E4DC;
+    --border-strong: #D4CFC5;
+    --faith-bg: #EEF4F4;
+    --faith-accent: #2D6E6E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  header {
+    background: var(--ink);
+    color: white;
+    padding: 52px 24px 44px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(201,168,76,0.04) 40px,
+      rgba(201,168,76,0.04) 41px
+    );
+  }
+
+  header .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    font-weight: 500;
+    position: relative;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 400;
+    line-height: 1.2;
+    color: white;
+    position: relative;
+    margin-bottom: 14px;
+  }
+
+  header p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    position: relative;
+    max-width: 480px;
+    margin: 0 auto;
+    font-weight: 300;
+  }
+
+  .tab-bar {
+    display: flex;
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 24px;
+    gap: 4px;
+  }
+
+  .tab-btn {
+    padding: 16px 20px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover { color: var(--ink); }
+
+  .tab-btn.active {
+    color: var(--ink);
+    border-bottom-color: var(--gold);
+  }
+
+  .content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .section-intro {
+    padding: 20px 0 28px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+
+  .section-intro p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 300;
+    max-width: 560px;
+  }
+
+  .accordion {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    background: var(--warm-white);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+
+  .accordion:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+  .accordion.open { box-shadow: 0 2px 16px rgba(0,0,0,0.07); }
+
+  .acc-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    gap: 12px;
+  }
+
+  .acc-trigger-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .acc-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+  }
+
+  .badge-begin { background: #E8F4EB; color: #2D6B40; }
+  .badge-faith { background: var(--faith-bg); color: var(--faith-accent); }
+
+  .acc-arrow {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.25s, background 0.2s;
+  }
+
+  .acc-arrow svg { width: 10px; height: 10px; fill: none; stroke: var(--ink-muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  .accordion.open .acc-arrow { transform: rotate(90deg); background: var(--gold-light); }
+  .accordion.open .acc-arrow svg { stroke: var(--gold); }
+
+  .acc-body {
+    display: none;
+    padding: 0 22px 22px;
+    border-top: 1px solid var(--border);
+  }
+
+  .accordion.open .acc-body { display: block; }
+
+  .body-intro {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    padding: 16px 0 12px;
+    font-weight: 300;
+  }
+
+  .steps { margin-top: 4px; }
+
+  .step {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    min-width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--gold-subtle);
+    border: 1px solid var(--gold-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gold);
+    margin-top: 2px;
+  }
+
+  .step-dash {
+    min-width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--ink-muted);
+    margin-top: 2px;
+  }
+
+  .step-text {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  .step-text strong { color: var(--ink); font-weight: 500; }
+
+  .pay-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 16px 0 12px;
+  }
+
+  .pay-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+
+  .pay-label { font-size: 11px; color: var(--ink-muted); margin-bottom: 6px; font-weight: 500; letter-spacing: 0.02em; }
+  .pay-val { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--ink); }
+
+  .pay-note {
+    font-size: 12px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+    padding-top: 4px;
+    font-weight: 300;
+  }
+
+  .platform-list { margin-top: 8px; }
+
+  .platform-group-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 14px 0 6px;
+  }
+
+  .platform-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+
+  .platform-item:last-child { border-bottom: none; }
+
+  .plat-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .plat-note { font-size: 12px; color: var(--ink-muted); margin-top: 2px; line-height: 1.5; font-weight: 300; }
+  .plat-right { text-align: right; font-size: 12px; color: var(--ink-muted); white-space: nowrap; flex-shrink: 0; line-height: 1.6; font-weight: 300; }
+
+  .tip-box {
+    background: var(--faith-bg);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--teal);
+    line-height: 1.6;
+    margin-top: 16px;
+    font-weight: 400;
+  }
+
+  .faith-accordion .acc-trigger { background: var(--faith-bg); }
+  .faith-accordion { border-color: rgba(45,110,110,0.2); }
+
+  footer {
+    text-align: center;
+    padding: 32px 24px;
+    background: var(--warm-white);
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-weight: 300;
+  }
+
+  @media (max-width: 480px) {
+    .pay-grid { grid-template-columns: 1fr; }
+    .platform-item { flex-direction: column; gap: 4px; }
+    .plat-right { text-align: left; }
+    header { padding: 40px 20px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Your complete reference</div>
+  <h1>Voice Work Guide</h1>
+  <p>Everything you need to start earning with your voice — narration, singing, and faith-based opportunities.</p>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('reading', this)">Audiobook narration</button>
+  <button class="tab-btn" onclick="switchTab('music', this)">Music &amp; singing</button>
+</div>
+
+<div class="content">
+
+  <!-- READING -->
+  <div class="section visible" id="tab-reading">
+    <div class="section-intro">
+      <p>Record books aloud from home and get paid per finished hour or through royalties. Flexible, remote, and beginner-friendly.</p>
+    </div>
+
+    <div class="accordion" id="acc-r1">
+      <button class="acc-trigger" onclick="toggle('acc-r1')">
+        <div class="acc-trigger-left"><span class="acc-title">What is audiobook narration?</span></div>
+        <div class="acc-arrow"><svg viewBox="0 0 12 12"><polyline points="4,2 8,6 4,10"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="steps">
+          <div class="step"><div class="step-dash">—</div><div class="step-text">You record yourself reading books aloud, then deliver finished audio files to a platform or author. Work is almost entirely remote and freelance — you set your own schedule.</div></div>
+          <div class="step"><div class="step-dash">—</div><div class="step-text">Narrators are paid either a flat rate per finished hour (PFH) of audio, or through royalty share — earning a cut every time the audiobook sells.</div></div>
+          <div class="step"><div class="step-dash">—</div><div class="step-text">The global audiobook market is projected to grow from $14B in 2026 to $93B by 2034. Demand for narrators is high across all genres, especially faith and self-help.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-r2">
+      <button class="acc-trigger" onclick="toggle('acc-r2')">
+        <div class="acc-trigger-left"><span class="acc-title">What you need to get started</span><span class="badge badge-begin">beginner</span></div>
+        <div class="acc-arrow"><svg viewBox="0 0 12 12"><polyline points="4,2 8,6 4,10"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Microphone</strong> — A USB condenser mic like the Blue Yeti or Audio-Technica AT2020 ($100–$150). No need for anything expensive to start.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Quiet space</strong> — A closet full of clothes or carpeted room works. Avoid hard walls. Turn Wi-Fi off on nearby devices to prevent hidden static.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Recording software</strong> — Audacity (free) is enough to start. Learn ACX's audio requirements early: noise floor, file format, and room tone at start/end of each chapter file.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Demo reel</strong> — Record 2–3 short samples (1–2 min each) in different genres: fiction, nonfiction, and one specialty like Christian/inspirational.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Read from a screen</strong> — Use a tablet or Kindle set to airplane mode. Avoid paper page-turning sounds that ruin takes.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-r3">
+      <button class="acc-trigger" onclick="toggle('acc-r3')">
+        <div class="acc-trigger-left"><span class="acc-title">Pay scale</span></div>
+        <div class="acc-arrow"><svg viewBox="0 0 12 12"><polyline points="4,2 8,6 4,10"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="pay-grid">
+          <div class="pay-card"><div class="pay-label">Beginner (PFH)</div><div class="pay-val">~$100</div></div>
+          <div class="pay-card"><div class="pay-label">Mid-level (PFH)</div><div class="pay-val">$150–$300</div></div>
+          <div class="pay-card"><div class="pay-label">Experienced (PFH)</div><div class="pay-val">$300–$500+</div></div>
+        </div>
+        <p class="pay-note">PFH = per finished hour of audio. A 6-hour audiobook at $100/PFH = $600 total. Royalty share pays monthly based on sales — more risk but passive income potential if the book sells well. ACX bounty program also pays an extra $75 when a new Audible member buys your book as their first title.</p>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-r4">
+      <button class="acc-trigger" onclick="toggle('acc-r4')">
+        <div class="acc-trigger-left"><span class="acc-title">Where to find work</span></div>
+        <div class="acc-arrow"><svg viewBox="0 0 12 12"><polyline points="4,2 8,6 4,10"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="platform-list">
+          <div class="platform-group-label">Best for beginners</div>
+          <div class="platform-item"><div><div class="plat-name">ACX — acx.com</div><div class="plat-note">Amazon/Audible's marketplace. Free to join, no experience needed. Audition for posted projects.</div></div><div class="plat-right">PFH or royalty share<br>US, UK, CA, IE only</div></div>
+          <div class="platform-item"><div><div class="plat-name">Fiverr — fiverr.com</div><div class="plat-note">Create an audiobook narration gig. Clients come to you. Fast way to build reviews.</div></div><div class="plat-right">You set pricing<br>Global</div></div>
+          <div class="platform-group-label">Broader reach</div>
+          <div class="platform-item"><div><div class="plat-name">INaudio (formerly Findaway Voices)</div><div class="plat-note">Spotify-owned. Distributes to 40+ platforms — Apple Books, Kobo, Scribd, Google Play and more.</div></div><div class="plat-right">Set own rates<br>~80% royalty kept</div></div>
+          <div class="platform-item"><div><div class="plat-name">Author's Republic</div><div class="plat-note">Wide distribution aggregator for indie authors. Good for working outside Amazon's ecosystem.</div></div><div class="plat-right">Varies by project</div></div>
+          <div class="platform-item"><div><div class="plat-name">Upwork — upwork.com</div><div class="plat-note">Post a narrator profile. Clients post jobs, you apply. Good for flexible, higher-budget projects.</div></div><div class="plat-right">Hourly or fixed<br>Global</div></div>
+          <div class="platform-item"><div><div class="plat-name">Reedsy — reedsy.com</div><div class="plat-note">Marketplace for book professionals. Authors hire narrators directly; platform handles contracts.</div></div><div class="plat-right">Project-based</div></div>
+          <div class="platform-group-label">Steady / contract work (requires portfolio)</div>
+          <div class="platform-item"><div><div class="plat-name">Audible Studios · Penguin Random House Audio · HarperAudio · Podium Audio</div><div class="plat-note">Publisher-direct hiring. More stable, contract-based work. Usually requires prior narration credits.</div></div><div class="plat-right">Contract-based</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion faith-accordion" id="acc-r5">
+      <button class="acc-trigger" onclick="toggle('acc-r5')">
+        <div class="acc-trigger-left"><span class="acc-title">Christian &amp; faith-based narration</span><span class="badge badge-faith">faith</span></div>
+        <div class="acc-arrow"><svg viewBox="0 0 12 12"><polyline points="4,2 8,6 4,10"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="steps">
+          <div class="step"><div class="step-dash">—</div><div class="step-text">Christian nonfiction, devotionals, Bible studies, and inspirational memoir are consistent top sellers on Audible and Apple Books. This is a real niche with steady, consistent demand.</div></div>
+          <div class="step"><div class="step-num">1</div><div class="step-text"><strong>On ACX</strong> — Filter projects by "Religion &amp; Spirituality." Mention your faith background and familiarity with scripture in your profile bio.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Christianbook.com (CBD)</strong> — Occasionally lists narrator opportunities for their audio catalog. Worth checking regularly.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Major Christian publishers</strong> — Focus on the Family, Tyndale, Thomas Nelson, Zondervan all have audio divisions. Cold outreach with a faith-specific demo can land you on their radar.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Librivox (librivox.org)</strong> — Free volunteer platform. Great for practice with public domain Christian classics (Spurgeon, Tozer, etc.). Builds your reel before paid work.</div></div>
+        </div>
+        <div class="tip-box">Include a 60–90 second faith/inspirational demo clip on every platform profile. Authors of Christian books specifically seek narrators who understand the tone and won't stumble over theological terms.</div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-r6">
+      <button class="acc-trigger" onclick="toggle('acc-r6')">
+        <div class="acc-trigger-left"><span class="acc-title">Step-by-step: how to launch</span></div>
+        <div class="acc-arrow"><svg viewBox="0 0 12 12"><polyline points="4,2 8,6 4,10"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Set up your recording space and mic. Test with Audacity. Run a sample through ACX's free audio check tool to confirm it meets their standards.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Record 2–3 demo clips (fiction, nonfiction, faith/inspirational). Keep each 1–2 minutes.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Create profiles on ACX and Fiverr simultaneously. Upload demos. Write a bio highlighting vocal style, genres, and any relevant background.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Start auditioning on ACX. Target short books (under 4 hours) to build your first credits quickly.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">After 3–5 completed titles, expand to Upwork and Reedsy for higher-paying clients. Add INaudio for wider distribution reach.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text">Build toward publisher-direct relationships once you have strong reviews and a body of work.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MUSIC -->
+  <div class="section" id="tab-music">
+    <div class="section-intro">
+      <p>Record vocal tracks for artists, producers, and ministries from home. Deliver audio stems and get paid per song or project.</p>
+    </div>
+
+    <div class="accordion" id="acc-m1">
+      <button class="acc-trigger" onclick="toggle('acc-m1')">
+        <div class="acc-trigger-left"><span class="acc-title">What is session / freelance singing?</span></div>
+        <div class="acc-arrow"><svg viewBox="0 0 12 12"><polyline points="4,2 8,6 4,10"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="steps">
+          <div class="step"><div class="step-dash">—</div><div class="step-text">Session singers record vocal tracks for other artists, producers, and content creators remotely. You record your parts at home and deliver audio stems/files.</div></div>
+          <div class="step"><div class="step-dash">—</div><div class="step-text">Work includes lead vocals, backing/harmony vocals, jingles, commercials, film/TV, video game soundtracks, and worship music.</div></div>
+          <div class="step"><div class="step-dash">—</div><div class="step-text">Same home studio setup as narration works here — a decent condenser mic, quiet space, and a basic DAW.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-m2">
+      <button class="acc-trigger" onclick="toggle('acc-m2')">
+        <div class="acc-trigger-left"><span class="acc-title">What you need to get started</span><span class="badge badge-begin">beginner</span></div>
+        <div class="acc-arrow"><svg viewBox="0 0 12 12"><polyline points="4,2 8,6 4,10"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Microphone</strong> — Blue Yeti or AT2020 USB condenser ($100–$150) to start. Upgrade to XLR later for better quality.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><strong>DAW</strong> — GarageBand (free on Mac), Audacity (free, any OS), or Reaper ($60). Used to record, edit, and export clean vocal stems.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Audio interface (optional upgrade)</strong> — If using an XLR mic, Focusrite Scarlett Solo (~$120). Improves quality significantly and opens up better mic options.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Demo recordings</strong> — Record 2–3 short clips across different styles (pop, R&amp;B, gospel/worship). These are your portfolio — quality matters more than quantity.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Closed-back headphones</strong> — For monitoring while recording. Prevents bleed from playback into your mic.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-m3">
+      <button class="acc-trigger" onclick="toggle('acc-m3')">
+        <div class="acc-trigger-left"><span class="acc-title">Pay scale</span></div>
+        <div class="acc-arrow"><svg viewBox="0 0 12 12"><polyline points="4,2 8,6 4,10"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="pay-grid">
+          <div class="pay-card"><div class="pay-label">Beginner / Fiverr</div><div class="pay-val">$30–$100</div></div>
+          <div class="pay-card"><div class="pay-label">Mid-level session</div><div class="pay-val">$100–$300</div></div>
+          <div class="pay-card"><div class="pay-label">Pro / SoundBetter</div><div class="pay-val">$300–$2,000+</div></div>
+        </div>
+        <p class="pay-note">Rates are typically per song or per project. Some singers charge hourly. Jingle and commercial work pays higher flat rates. Royalty deals are less common in session singing — most work is flat fee paid on delivery.</p>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-m4">
+      <button class="acc-trigger" onclick="toggle('acc-m4')">
+        <div class="acc-trigger-left"><span class="acc-title">Where to find work</span></div>
+        <div class="acc-arrow"><svg viewBox="0 0 12 12"><polyline points="4,2 8,6 4,10"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="platform-list">
+          <div class="platform-group-label">Music-specific platforms</div>
+          <div class="platform-item"><div><div class="plat-name">AirGigs — airgigs.com</div><div class="plat-note">Best for beginners. Quick signup (~5 min). 160+ countries of clients. 8–15% commission. Grammy-level talent alongside newcomers.</div></div><div class="plat-right">You set rates<br>PayPal payments</div></div>
+          <div class="platform-item"><div><div class="plat-name">SoundBetter — soundbetter.com</div><div class="plat-note">Spotify-owned. More prestigious, more vetting. Best for higher-paying clients once you have a track record.</div></div><div class="plat-right">$100–$2,000+ per song<br>More competitive</div></div>
+          <div class="platform-item"><div><div class="plat-name">Twine — twine.net</div><div class="plat-note">Creative marketplace for vocalists across genres. Browse jobs or let clients find you.</div></div><div class="plat-right">Varies by project</div></div>
+          <div class="platform-item"><div><div class="plat-name">Melody Nest</div><div class="plat-note">Newer platform — less competition, good for building early presence while it grows.</div></div><div class="plat-right">Growing client base</div></div>
+          <div class="platform-group-label">General freelance</div>
+          <div class="platform-item"><div><div class="plat-name">Fiverr — fiverr.com</div><div class="plat-note">Create a vocalist/session singer gig. Very flexible, great for building reviews fast.</div></div><div class="plat-right">You set pricing</div></div>
+          <div class="platform-item"><div><div class="plat-name">Upwork — upwork.com</div><div class="plat-note">Hourly or per-project vocalist work. Better for higher-budget or longer-form projects.</div></div><div class="plat-right">Hourly or fixed</div></div>
+          <div class="platform-item"><div><div class="plat-name">Voices.com · Voice123</div><div class="plat-note">Primarily voiceover but singing and jingle work listed regularly. More competitive but higher pay.</div></div><div class="plat-right">Project-based</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion faith-accordion" id="acc-m5">
+      <button class="acc-trigger" onclick="toggle('acc-m5')">
+        <div class="acc-trigger-left"><span class="acc-title">Christian &amp; worship singing</span><span class="badge badge-faith">faith</span></div>
+        <div class="acc-arrow"><svg viewBox="0 0 12 12"><polyline points="4,2 8,6 4,10"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="steps">
+          <div class="step"><div class="step-dash">—</div><div class="step-text">Worship music is one of the most consistent niches in session singing. Churches, Christian artists, and ministries regularly need session vocalists for recordings, albums, and backing tracks.</div></div>
+          <div class="step"><div class="step-num">1</div><div class="step-text"><strong>AirGigs &amp; SoundBetter</strong> — Both have active Christian/worship clients. Tag your profile with "worship," "gospel," "CCM," and "Christian" so you surface in those searches.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><strong>WorshipTeam.com / PraiseCharts</strong> — Platforms used by worship leaders and church music directors. Some list session vocalist opportunities and connect you with worship teams needing studio singers.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><strong>SoundCloud &amp; YouTube</strong> — Post worship covers and original demos. Many Christian producers and artists scout talent directly from these platforms.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Direct outreach</strong> — Contact Christian labels (Integrity Music, Provident Label Group, Centricity Music) or indie worship artists about session work. A short email with a demo link goes a long way.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Local churches</strong> — Many larger churches produce original worship albums and need backing vocalists. Being plugged in locally leads to studio sessions and referrals.</div></div>
+        </div>
+        <div class="tip-box">A worship-specific demo (30–60 sec of a well-known CCM song or original worship piece) on your AirGigs and SoundBetter profiles makes you immediately findable by Christian clients searching for a vocalist who understands the genre.</div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-m6">
+      <button class="acc-trigger" onclick="toggle('acc-m6')">
+        <div class="acc-trigger-left"><span class="acc-title">Step-by-step: how to launch</span></div>
+        <div class="acc-arrow"><svg viewBox="0 0 12 12"><polyline points="4,2 8,6 4,10"/></svg></div>
+      </button>
+      <div class="acc-body">
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Set up your recording space, mic, and DAW. Record a test vocal and listen back for noise, clarity, and tone.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Record 2–3 demo clips across different styles. Include a worship/gospel clip if that's your niche.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Sign up on AirGigs first (quickest to launch) and Fiverr simultaneously. Upload demos, write a bio, set competitive entry-level rates to attract first clients.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Deliver your first 5–10 projects with fast turnaround and clean audio. Reviews are your currency early on.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">Once you have reviews, apply to SoundBetter to reach higher-paying clients and larger productions.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text">Build a presence on SoundCloud or YouTube with worship covers and original sessions to attract inbound clients outside the platforms.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Voice Work Guide &nbsp;·&nbsp; Built with Claude &nbsp;·&nbsp; Information current as of 2026
+</footer>
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('visible');
+  btn.classList.add('active');
+}
+function toggle(id) {
+  const acc = document.getElementById(id);
+  acc.classList.toggle('open');
+}
+</script>
+</body>
+</html>
